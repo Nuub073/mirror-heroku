@@ -28,7 +28,6 @@ locale-gen en_US.UTF-8
 cp . .
 cp .netrc /root/.netrc
 chmod 600 /usr/src/app/.netrc
-wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht.dat -O /usr/src/app/dht.dat && wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht6.dat -O /usr/src/app/dht6.dat
 _other_package
 _other_pip
 pip3 install -r requirements.txt
