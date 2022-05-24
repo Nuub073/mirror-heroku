@@ -12,6 +12,7 @@ _other_pip () {
     }
 
 apt-get update -y && apt-get upgrade -y
+git clone $REPO_URL repo
 cd repo
 apt-get -qq install aria2 -y
 wget $CONFIG_FILE_URL
