@@ -1,8 +1,6 @@
 FROM python:3.9-slim
 
 WORKDIR /
-SHELL ["/bin/bash", "-c"]
-RUN chmod 777 /usr/src/app
 
 RUN if [ "$(uname -m)" = "aarch64" ] ; then \
         export HOST_CPU_ARCH=arm64; \
