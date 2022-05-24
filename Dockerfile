@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 WORKDIR /usr/src/app
 SHELL ["/bin/bash", "-c"]
-RUN chmod 777 /usr/src/appp
+RUN chmod 777 /usr/src/app
 
 RUN apt-get -qq update && \
     DEBIAN_FRONTEND="noninteractive" apt-get -qq install -y tzdata wget git python3 python3-pip \
