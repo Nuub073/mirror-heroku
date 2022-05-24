@@ -1,4 +1,4 @@
-FROM ubuntu:22.10
+FROM iamliquidx/mirleechxsdk:a8ce33bccdde0806fbd0541d5faf33e63a572582
 
 RUN apt-get update -y && apt-get upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" apt-get -qq install -y tzdata wget unzip git python3 python3-pip \
