@@ -18,7 +18,6 @@ apt-get -qq install aria2 -y
 wget $CONFIG_FILE_URL
 wget $SA_ZIP_LINK
 wget $TOCKEN_LINK
-wget $AUTH_CHAT_LINK
 unzip accounts.zip
 
 cp requirements.txt .
