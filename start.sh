@@ -34,4 +34,4 @@ _other_package
 _other_pip
 pwd
 ls -l
-python3 -m bot
+python3 setup.py

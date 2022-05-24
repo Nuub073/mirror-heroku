@@ -1,25 +1,26 @@
-FROM ubuntu:20.04
+FROM python:3.9-slim
 
-WORKDIR /usr/src/app
+WORKDIR /
 SHELL ["/bin/bash", "-c"]
 RUN chmod 777 /usr/src/app
 
-RUN apt-get -qq update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -qq install -y tzdata wget git python3 python3-pip \
-    locales python3-lxml \
-    curl pv jq ffmpeg \
-    p7zip-full p7zip-rar \
-    libcrypto++-dev libssl-dev \
-    libc-ares-dev libcurl4-openssl-dev \
-    libsqlite3-dev libsodium-dev && \
-    curl -L https://github.com/lzzy12/megasdkrest/releases/download/v0.1.14-rebuild/megasdkrest-$(cpu=$(uname -m); if [[ "$cpu" == "x86_64" ]]; then    echo "amd64"; elif [[ "$cpu" == "x86" ]]; then    echo "i386"; elif [[ "$cpu" == "aarch64" ]]; then    echo "arm64"; else    echo $cpu; fi) -o /usr/local/bin/megasdkrest && \
-    chmod +x /usr/local/bin/megasdkrest
+RUN if [ "$(uname -m)" = "aarch64" ] ; then \
+        export HOST_CPU_ARCH=arm64; \
+    elif [ "$(uname -m)" = "x86_64" ]; then \
+        export HOST_CPU_ARCH=amd64; \
+    fi && \
+    sed -i 's/main/main non-free/g' /etc/apt/sources.list && \
+    apt-get -qq update && \
+    apt-get -qq install -y tzdata curl p7zip-full p7zip-rar wget xz-utils libmagic-dev gcc libffi-dev nscd && \
+    apt-get -y autoremove && rm -rf /var/lib/apt/lists/* && apt-get clean && \
+    wget -q https://github.com/yzop/gg/raw/main/ffmpeg-git-${HOST_CPU_ARCH}-static.tar.xz && \
+    tar -xf ff*.tar.xz && rm -rf *.tar.xz && \
+    mv ff*/ff* /usr/local/bin/ && rm -rf ff* && \
+    wget -q https://github.com/viswanathbalusu/megasdkrest/releases/latest/download/megasdkrest-${HOST_CPU_ARCH} -O /usr/local/bin/megasdkrest && \
+    chmod a+x /usr/local/bin/megasdkrest && mkdir /app/ && chmod 777 /app/ && \
+    pip3 install --no-cache-dir MirrorX && \
+    apt-get purge -yqq gcc && apt-get -y autoremove && rm -rf /var/lib/apt/lists/* && apt-get clean
 
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-COPY . .
+WORKDIR /app
+
 CMD ["bash", "start.sh"]
