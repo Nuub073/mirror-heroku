@@ -19,6 +19,5 @@ RUN if [ "$(uname -m)" = "aarch64" ] ; then \
     pip3 install --no-cache-dir MirrorX && \
     apt-get purge -yqq gcc && apt-get -y autoremove && rm -rf /var/lib/apt/lists/* && apt-get clean
 
-WORKDIR /app
 
 CMD ["bash", "start.sh"]
