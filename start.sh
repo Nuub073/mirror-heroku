@@ -12,25 +12,24 @@ _other_pip () {
     }
 
 apt-get update -y && apt-get upgrade -y
-git clone $REPO_URL repo
 cd repo
-apt-get install aria2 -y
+apt-get -qq install aria2 -y
 wget $CONFIG_FILE_URL
 wget $SA_ZIP_LINK
 wget $TOCKEN_LINK
 unzip accounts.zip
-cp extract /usr/local/bin
-cp pextract /usr/local/bin
-chmod +x /usr/local/bin/extract && chmod +x ?usr/local/bin/pextract
 
-locale-gen en_US.UTF-8
+cp requirements.txt .
+cp extract /usr/local/bin
+chmod +x /usr/local/bin/extract
+pip3 install --no-cache-dir -r requirements.txt && apt-get -qq purge git
+
 
 cp . .
-cp .netrc /root/.netrc
-chmod 600 /usr/src/app/.netrc
+cp netrc /root/.netrc
+chmod +x aria.sh
 _other_package
 _other_pip
-pip3 install -r requirements.txt
 pwd
 ls -l
 python3 -m bot
